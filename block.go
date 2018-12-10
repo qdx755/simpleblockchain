@@ -14,18 +14,14 @@ type Block struct {
 // Create new block
 func NewBlock(data string, prevBlock []byte) *Block {
 	block := &Block{prevBlock, []byte{}, []byte(data), time.Now().Unix(), 0}
-	block.Mining()
+	pow := NewProofOfWork(block)
+	nonce, hash := pow.Run()
+	block.Hash = hash
+	block.Nonce = nonce
 	return block
 }
 
 // Create genesis block
 func GenesisBlock() *Block {
 	return NewBlock("Genesis Block", []byte("0"))
-}
-
-// Mining to find the correct hash & nonce
-func (b *Block) Mining() {
-	nonce, hash := Prove(b)
-	b.Hash = hash[:]
-	b.Nonce = nonce
 }
