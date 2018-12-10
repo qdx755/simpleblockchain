@@ -8,6 +8,7 @@ import (
 func main() {
 	fmt.Println("Hello Blockchain!")
 	bc := NewBlockChain()
+	defer  bc.db.Close()
 	bc.AddBlock("Send 1 BTC to Bob")
 	bc.AddBlock("Send 2 BTC to Alice")
 	bci := bc.Iterator()
